@@ -6,11 +6,12 @@ from misc import *
 
 if __name__ == '__main__':    
     parser = argparse.ArgumentParser()
-    parser.add_argument('-l', '--license',  action='store',      dest='license', help='path to a licence file',  type=str, default=Defaults.LICENSE)
-    parser.add_argument('-b', '--build',    action='store',      dest='build',   help='path to a builds folder', type=str, default=Defaults.BUILDS)
-    parser.add_argument('-s', '--script',   action='store',      dest='script',  help='path to a script file',   type=str, default=Defaults.SCRIPT)
-    parser.add_argument('-n', '--number',   action='store',      dest='number',  help='path to a build folder number for a default builds path',  type=str, default=None) 
-    parser.add_argument('-d', '--defaults', action='store_true', dest='default', help='show default values')
+    parser.add_argument('-l',  '--license',  action='store',      dest='license', help='path to a licence file',  type=str, default=Defaults.LICENSE)
+    parser.add_argument('-b',  '--build',    action='store',      dest='build',   help='path to a builds folder', type=str, default=Defaults.BUILDS)
+    parser.add_argument('-s',  '--script',   action='store',      dest='script',  help='path to a script file',   type=str, default=Defaults.SCRIPT)
+    parser.add_argument('-n',  '--number',   action='store',      dest='number',  help='path to a build folder number for a default builds path',  type=str, default=None) 
+    parser.add_argument('-d',  '--defaults', action='store_true', dest='default', help='show default values')
+    parser.add_argument('-bs', '--builds',   action='store_true', dest='builds',  help='show builds in the default folder')
 
 
     args = parser.parse_args()
@@ -19,6 +20,9 @@ if __name__ == '__main__':
         print(f'License path: {Defaults.LICENSE}')
         print(f'Builds path:  {Defaults.BUILDS}')
         print(f'Script path:  {Defaults.SCRIPT}')
+    elif args.builds:
+        print('Following builds are present in the default folder:')
+        for build in os.listdir(Defaults.BUILDS): print(build)
     elif args.number:
         paths = [args.build, args.number]
         path = '/'.join(paths)

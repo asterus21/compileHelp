@@ -33,6 +33,7 @@ def start_script(builds: str, license: str, script: str) -> tuple:
 
 def script_start(build_path, command, env):
     """Starts the main script."""
+    # PDF files must be removed before the script 
     import shutil
     import tempfile
     temp_backup = tempfile.mkdtemp()
@@ -44,5 +45,6 @@ def script_start(build_path, command, env):
         shell=True, 
         check=False
         )
+    # PDF files must be restored after the script
     shutil.move(temp_pdf_path, f"{build_path}\\SourceData\\www\\help\\pdf")
     shutil.rmtree(temp_backup)

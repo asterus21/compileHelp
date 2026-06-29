@@ -1,7 +1,11 @@
 import subprocess
 
+import shutil
+import tempfile
+
 from misc import *
 from data import Defaults
+
 
 def start_script(builds: str, license: str, script: str) -> tuple:
     """Starts the default script."""
@@ -31,18 +35,56 @@ def start_script(builds: str, license: str, script: str) -> tuple:
     return build_path, command, env
 
 
+def move_pdf(script, full_path, temp_pdf_path):
+    try:
+        shutil.move(full_path, temp_pdf_path)
+        exec(script)
+        shutil.move(temp_pdf_path, full_path)
+    except:
+        print("No PDF files found")
+        exec(script)
+
+
+def move_pdf(script, full_path, temp_pdf_path):
+    try:
+        shutil.move(full_path, temp_pdf_path)
+        exec(script)
+        shutil.move(temp_pdf_path, full_path)
+    except:
+        print("No PDF files found")
+        exec(script)
+
+
 def script_start(build_path, command, env):
     """Starts the main script."""
-    import shutil
-    import tempfile
     temp_backup = tempfile.mkdtemp()
     temp_pdf_path = os.path.join(temp_backup, "pdf")
-    shutil.move(f"{build_path}\\SourceData\\www\\help\\pdf", temp_pdf_path)
-    subprocess.run(
-        command,
-        env=env,
-        shell=True, 
-        check=False
+    try: 
+        shutil.move(f"{build_path}\\SourceData\\www\\help\\pdf", temp_pdf_path)
+    except: 
+        subprocess.run(
+            command,
+            env=env,
+            shell=True, 
+            check=False
         )
-    shutil.move(temp_pdf_path, f"{build_path}\\SourceData\\www\\help\\pdf")
+    try: 
+        shutil.move(temp_pdf_path, f"{build_path}\\SourceData\\www\\help\\pdf")
+    except: 
+        pass
     shutil.rmtree(temp_backup)
+
+
+# def script_start(build_path, command, env):
+#     """Starts the main script."""
+#     temp_backup = tempfile.mkdtemp()
+#     temp_pdf_path = os.path.join(temp_backup, "pdf")
+#     script = subprocess.run(
+#         command,
+#         env=env,
+#         shell=True, 
+#         check=False
+#         )
+#     full_path = f"{build_path}\\SourceData\\www\\help\\pdf"
+#     move_pdf(script, full_path, temp_pdf_path)
+#     shutil.rmtree(temp_backup)

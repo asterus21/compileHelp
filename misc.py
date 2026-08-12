@@ -31,13 +31,13 @@ def store_exit_values() -> tuple:
     )
 
 
-def set_env(nodejs, license, source_data) -> dict:
+def set_environmental_variables(nodejs, license, source_data) -> dict:
     '''Sets enviromental variables.'''
-    env = os.environ.copy()
-    env["MISHARED"] = str(nodejs)
-    env["COMLICBITSPATH"] = str(license)
-    env["SOURCEDATA"] = str(source_data)
-    return env
+    environmental_variables = os.environ.copy()
+    environmental_variables["MISHARED"]       = str(nodejs)
+    environmental_variables["COMLICBITSPATH"] = str(license)
+    environmental_variables["SOURCEDATA"]     = str(source_data)
+    return environmental_variables
 
 
 def get_build_number(exit) -> str:
